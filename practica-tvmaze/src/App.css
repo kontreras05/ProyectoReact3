@@ -1,0 +1,141 @@
+/* Estilos generales */
+.app-container {
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Estilos del buscador y filtros */
+.controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+input[type="text"], select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+/* Grid de series (Responsive básico) */
+.grid {
+  display: grid;
+  /* Crea columnas automáticas que midan mínimo 200px */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+/* Estilos de la tarjeta (Card) */
+.card {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+.card img {
+  max-width: 100%;
+  border-radius: 4px;
+}
+
+button {
+  padding: 8px 15px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Favoritos con estilo diferente */
+.favorites-section {
+  background-color: #e8f4ff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  border: 2px solid #007bff;
+}
+
+/* ESTILOS DEL MODAL */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 700px;
+  width: 90%;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-body {
+  display: flex;
+  gap: 20px;
+  text-align: left;
+}
+
+.modal-body img {
+  max-width: 250px;
+}
+
+.close-btn {
+  background: #dc3545;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* MEDIA QUERIES (Punto obligatorio de la rúbrica) */
+@media (max-width: 600px) {
+  .grid {
+    /* En móviles, forzamos 1 o 2 columnas máximo */
+    grid-template-columns: repeat(2, 1fr); 
+  }
+  
+  .modal-body {
+    flex-direction: column;
+  }
+  
+  .modal-body img {
+    max-width: 100%;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+}
