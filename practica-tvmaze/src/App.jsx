@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
-  // ESTADOS (Hooks: useState - PDF React diapo 40)
+  // ESTADOS
   const [shows, setShows] = useState([]) // Lista completa de series de la API
   const [filteredShows, setFilteredShows] = useState([]) // Lista filtrada para mostrar
   const [search, setSearch] = useState("") // Texto del buscador
@@ -11,9 +11,9 @@ function App() {
   const [genreFilter, setGenreFilter] = useState("") // Extra: Filtro género
   const [sortByRating, setSortByRating] = useState(false) // Extra: Ordenación
 
-  // EFECTO 1: Cargar datos de la API y LocalStorage al inicio (useEffect - PDF React diapo 65)
+  //  Cargar datos de la API y LocalStorage al inicio
   useEffect(() => {
-    // Petición HTTP (Fetch - PDF JS diapo 72)
+    // Petición HTTP
     fetch('https://api.tvmaze.com/shows')
       .then(response => response.json())
       .then(data => {
@@ -22,7 +22,7 @@ function App() {
       })
       .catch(error => console.error("Error cargando series:", error))
 
-    // Recuperar favoritos del LocalStorage (PDF JS diapo 62)
+    // Recuperar favoritos del LocalStorage
     const storedFavs = JSON.parse(localStorage.getItem('myFavorites'))
     if (storedFavs) {
       setFavorites(storedFavs)
@@ -33,19 +33,19 @@ function App() {
   useEffect(() => {
     let result = shows
 
-    // 1. Filtrar por nombre (PDF JS diapo 9 - filter)
+    // 1. Filtrar por nombre 
     if (search) {
       result = result.filter(show => 
         show.name.toLowerCase().includes(search.toLowerCase())
       )
     }
 
-    // 2. Extra: Filtrar por género
+    // 2. Filtrar por género
     if (genreFilter) {
       result = result.filter(show => show.genres.includes(genreFilter))
     }
 
-    // 3. Extra: Ordenar por rating (sort muta el array, así que hacemos copia con [...])
+    // 3.  Ordenar por rating 
     if (sortByRating) {
       result = [...result].sort((a, b) => b.rating.average - a.rating.average)
     }
@@ -53,26 +53,25 @@ function App() {
     setFilteredShows(result)
   }, [search, shows, genreFilter, sortByRating])
 
-  // EFECTO 3: Guardar en LocalStorage cada vez que cambian los favoritos
+  // Guardar en LocalStorage
   useEffect(() => {
     localStorage.setItem('myFavorites', JSON.stringify(favorites))
   }, [favorites])
 
-  // MANEJADORES DE EVENTOS (PDF React diapo 36)
   const toggleFavorite = (show) => {
-    // Comprobar si ya existe (PDF JS diapo 12 - find)
+    // Comprobar si ya existe 
     const isFav = favorites.find(fav => fav.id === show.id)
     
     if (isFav) {
       // Quitar de favoritos (filter)
       setFavorites(favorites.filter(fav => fav.id !== show.id))
     } else {
-      // Añadir a favoritos (Spread operator - PDF JS diapo 17)
+      // Añadir a favoritos 
       setFavorites([...favorites, show])
     }
   }
 
-  // Obtener detalle (según enunciado, llamada extra opcional para detalle)
+  // Obtener detalle 
   const handleShowDetail = async (show) => {
     // Aunque ya tenemos datos, hacemos la llamada extra como pide el enunciado para practicar fetch async/await
     try {
@@ -91,7 +90,6 @@ function App() {
       <header>
         <h1>📺 TV Series Finder</h1>
         
-        {/* ZONA DE BUSQUEDA Y FILTROS */}
         <div className="controls">
           <input 
             type="text" 
@@ -99,8 +97,6 @@ function App() {
             value={search}
             onChange={(e) => setSearch(e.target.value)} 
           />
-          
-          {/* Extras: Filtros */}
           <select onChange={(e) => setGenreFilter(e.target.value)}>
             <option value="">Todos los géneros</option>
             <option value="Drama">Drama</option>
@@ -121,7 +117,6 @@ function App() {
       </header>
 
       <main>
-        {/* SECCIÓN FAVORITOS (Renderizado condicional - PDF React diapo 34) */}
         {favorites.length > 0 && (
           <section className="favorites-section">
             <h2>Mis Favoritos ❤️</h2>
@@ -136,8 +131,6 @@ function App() {
             </div>
           </section>
         )}
-
-        {/* LISTADO DE SERIES (Listas con map - PDF React diapo 32) */}
         <section>
           <h2>Resultados</h2>
           <div className="grid">
@@ -174,7 +167,7 @@ function App() {
                 <p><strong>Géneros:</strong> {selectedShow.genres.join(", ")}</p>
                 <p><strong>Idioma:</strong> {selectedShow.language}</p>
                 <p><strong>Estreno:</strong> {selectedShow.premiered}</p>
-                {/* innerHTML es peligroso pero se enseña en el PDF JS diapo 53 */}
+                {/* innerHTML es peligroso pero se enseña */}
                 <div dangerouslySetInnerHTML={{ __html: selectedShow.summary }} />
               </div>
             </div>
